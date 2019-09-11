@@ -58,7 +58,7 @@ func (t *TLSOptions) ToServerTLSConfig() (*tls.Config, error) {
 	cfg.PreferServerCipherSuites = true
 
 	// Enable TLS client authentication if configured
-	if t.ClientAuthType {
+	if t.GetClientAuthType() {
 		cfg.ClientAuth = tls.RequireAndVerifyClientCert
 	}
 
