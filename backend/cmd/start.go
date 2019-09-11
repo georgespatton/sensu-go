@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"syscall"
 
+	corev2 "github.com/sensu/sensu-go/api/core/v2"
 	"github.com/sensu/sensu-go/backend"
 	"github.com/sensu/sensu-go/backend/etcd"
-	"github.com/sensu/sensu-go/types"
 	"github.com/sensu/sensu-go/util/path"
 	stringsutil "github.com/sensu/sensu-go/util/strings"
 	"github.com/sirupsen/logrus"
@@ -189,7 +189,7 @@ func StartCommand(initialize initializeFunc) *cobra.Command {
 			trustedCAFile := viper.GetString(flagTrustedCAFile)
 
 			if certFile != "" && keyFile != "" {
-				cfg.TLS = &types.TLSOptions{
+				cfg.TLS = &corev2.TLSOptions{
 					CertFile:           certFile,
 					KeyFile:            keyFile,
 					TrustedCAFile:      trustedCAFile,
@@ -199,6 +199,14 @@ func StartCommand(initialize initializeFunc) *cobra.Command {
 				return fmt.Errorf("tls configuration error, missing flag: --%s", flagCertFile)
 			} else if certFile != "" && keyFile == "" {
 				return fmt.Errorf("tls configuration error, missing flag: --%s", flagKeyFile)
+			}
+
+			// Duplicate the TLS options for the agent TLS configuration
+			cfg.AgentTLSOptions = &corev2.TLSOptions{
+				CertFile:           cfg.TLS.CertFile,
+				KeyFile:            cfg.TLS.KeyFile,
+				TrustedCAFile:      cfg.TLS.TrustedCAFile,
+				InsecureSkipVerify: cfg.TLS.InsecureSkipVerify,
 			}
 
 			// Etcd TLS config
