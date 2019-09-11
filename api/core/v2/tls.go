@@ -57,6 +57,11 @@ func (t *TLSOptions) ToServerTLSConfig() (*tls.Config, error) {
 	// Tell the server to prefer it's own cipher suite ordering over the client's preferred ordering
 	cfg.PreferServerCipherSuites = true
 
+	// Enable TLS client authentication if configured
+	if t.ClientAuthType {
+		cfg.ClientAuth = tls.RequireAndVerifyClientCert
+	}
+
 	return &cfg, nil
 }
 
