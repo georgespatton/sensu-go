@@ -195,18 +195,16 @@ func StartCommand(initialize initializeFunc) *cobra.Command {
 					TrustedCAFile:      trustedCAFile,
 					InsecureSkipVerify: insecureSkipTLSVerify,
 				}
-			} else if certFile == "" && keyFile != "" {
-				return fmt.Errorf("tls configuration error, missing flag: --%s", flagCertFile)
-			} else if certFile != "" && keyFile == "" {
-				return fmt.Errorf("tls configuration error, missing flag: --%s", flagKeyFile)
-			}
 
-			// Duplicate the TLS options for the agent TLS configuration
-			cfg.AgentTLSOptions = &corev2.TLSOptions{
-				CertFile:           cfg.TLS.CertFile,
-				KeyFile:            cfg.TLS.KeyFile,
-				TrustedCAFile:      cfg.TLS.TrustedCAFile,
-				InsecureSkipVerify: cfg.TLS.InsecureSkipVerify,
+				// Duplicate the TLS options for the agent TLS configuration
+				cfg.AgentTLSOptions = &corev2.TLSOptions{
+					CertFile:           cfg.TLS.CertFile,
+					KeyFile:            cfg.TLS.KeyFile,
+					TrustedCAFile:      cfg.TLS.TrustedCAFile,
+					InsecureSkipVerify: cfg.TLS.InsecureSkipVerify,
+				}
+			} else if certFile != "" || keyFile != "" {
+				return fmt.Errorf("tls configuration error, missing flag: --%s", flagCertFile)
 			}
 
 			// Etcd TLS config
