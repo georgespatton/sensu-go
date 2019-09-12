@@ -9,6 +9,10 @@ import (
 	"github.com/sensu/sensu-go/types"
 )
 
+// BasicAuthentication is a public function that returns the HTTP middleware for
+// handling basic authentication in agentd
+var BasicAuthentication = basicAuthentication
+
 // AuthStore specifies the storage requirements for auth types.
 type AuthStore interface {
 	// AuthenticateUser attempts to authenticate a user with the given username
@@ -54,8 +58,8 @@ func (a Authentication) Then(next http.Handler) http.Handler {
 	})
 }
 
-// BasicAuthentication is HTTP middleware for basic authentication
-func BasicAuthentication(next http.Handler, store AuthStore) http.Handler {
+// basicAuthentication is HTTP middleware for basic authentication
+func basicAuthentication(next http.Handler, store AuthStore) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		username, password, ok := r.BasicAuth()
 		if !ok {
