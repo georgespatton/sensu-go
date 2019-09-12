@@ -86,7 +86,7 @@ func basicAuthentication(next http.Handler, store AuthStore) http.Handler {
 		// system:user group so it can view itself and change its password
 		user.Groups = append(user.Groups, "system:user")
 
-		// TODO: eventually break out authroization details in context from jwt
+		// TODO: eventually break out authorization details in context from jwt
 		// claims; in this method they are too tightly bound
 		claims, _ := jwt.NewClaims(user)
 		ctx := jwt.SetClaimsIntoContext(r, claims)
