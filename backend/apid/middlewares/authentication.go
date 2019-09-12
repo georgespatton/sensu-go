@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
+	corev2 "github.com/sensu/sensu-go/api/core/v2"
 	"github.com/sensu/sensu-go/backend/apid/actions"
 	"github.com/sensu/sensu-go/backend/authentication/jwt"
-	"github.com/sensu/sensu-go/types"
 )
 
 // BasicAuthentication is a public function that returns the HTTP middleware for
@@ -18,7 +18,11 @@ type AuthStore interface {
 	// AuthenticateUser attempts to authenticate a user with the given username
 	// and hashed password. An error is returned if the user does not exist, is
 	// disabled or the given password does not match.
-	AuthenticateUser(ctx context.Context, user, pass string) (*types.User, error)
+	AuthenticateUser(ctx context.Context, user, pass string) (*corev2.User, error)
+
+	// GetUser directly retrieves a user with the given username. An error is
+	// returned if the user does not exist or is disabled
+	GetUser(ctx context.Context, username string) (*corev2.User, error)
 }
 
 // Authentication is a HTTP middleware that enforces authentication
@@ -42,7 +46,7 @@ func (a Authentication) Then(next http.Handler) http.Handler {
 			}
 
 			// Set the claims into the request context
-			ctx = jwt.SetClaimsIntoContext(r, token.Claims.(*types.Claims))
+			ctx = jwt.SetClaimsIntoContext(r, token.Claims.(*corev2.Claims))
 			next.ServeHTTP(w, r.WithContext(ctx))
 
 			return
