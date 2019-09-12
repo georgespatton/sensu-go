@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic
 Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+- Support agent TLS authentication.
+
+### Fixed
+- Splayed proxy checks are now executed every interval, instead of every
+`interval + interval * splay_coverage`.
+
+## [5.13.1] - 2019-09-10
+
+### Fixed
+- Multi-build asset definitions with no matching filters will no longer cause a panic.
+
 ## [5.13.0] - 2019-09-09
 
 ### Added
@@ -12,6 +26,7 @@ Versioning](http://semver.org/spec/v2.0.0.html).
 - sensuctl asset add (fetches & adds assets from Bonsai).
 - sensuctl asset outdated (checks for newer versions of assets from Bonsai).
 - Add HTTP and directory support to `sensuctl create`
+- Only validate check interval/cron when publish true
 
 ### Fixed
 - Interactive check create and update modes now have 'none' as the first
