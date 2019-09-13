@@ -38,6 +38,17 @@ var (
 // ToServerTLSConfig should only be used for server TLS configuration. outputs a tls.Config from TLSOptions
 func (t *TLSOptions) ToServerTLSConfig() (*tls.Config, error) {
 	cfg := tls.Config{}
+	cfg.InsecureSkipVerify = t.GetInsecureSkipVerify()
+
+	if t.GetTrustedCAFile() != "" {
+		caCertPool, err := LoadCACerts(t.TrustedCAFile)
+		if err != nil {
+			return nil, err
+		}
+		// client trust store should ONLY consist of specified CAs
+		cfg.ClientCAs = caCertPool
+	}
+
 	if t.GetCertFile() != "" && t.GetKeyFile() != "" {
 		cert, err := tls.LoadX509KeyPair(t.GetCertFile(), t.GetKeyFile())
 		if err != nil {
@@ -68,9 +79,9 @@ func (t *TLSOptions) ToServerTLSConfig() (*tls.Config, error) {
 // ToClientTLSConfig is like ToServerTLSConfig but intended for TLS client config.
 func (t *TLSOptions) ToClientTLSConfig() (*tls.Config, error) {
 	cfg := tls.Config{}
-	cfg.InsecureSkipVerify = t.InsecureSkipVerify
+	cfg.InsecureSkipVerify = t.GetInsecureSkipVerify()
 
-	if t.TrustedCAFile != "" {
+	if t.GetTrustedCAFile() != "" {
 		caCertPool, err := LoadCACerts(t.TrustedCAFile)
 		if err != nil {
 			return nil, err
