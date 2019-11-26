@@ -53,7 +53,7 @@ require (
 	github.com/stretchr/testify v1.4.0
 	github.com/ulikunitz/xz v0.5.4 // indirect
 	github.com/willf/pad v0.0.0-20160331131008-b3d780601022
-	go.etcd.io/bbolt v1.3.3
+	go.etcd.io/bbolt v1.3.4-0.20191122203157-7f8bb47fcaf8
 	go.uber.org/multierr v1.2.0 // indirect
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 	golang.org/x/net v0.0.0-20191014212845-da9a3fd4c582
@@ -69,8 +69,6 @@ require (
 	sigs.k8s.io/yaml v1.1.0 // indirect
 )
 
-replace go.etcd.io/bbolt => /Users/justin/gohack/go.etcd.io/bbolt
+replace github.com/spf13/afero => github.com/sensu/afero v1.2.3-0.20190704135849-20abb58b9b81
 
-replace github.com/spf13/afero => /Users/justin/gohack/github.com/spf13/afero
-
-replace github.com/spf13/viper => /Users/justin/gohack/github.com/spf13/viper
+replace github.com/fsnotify/fsnotify => github.com/sensu/fsnotify v1.4.8-0.20191106155114-258784b8a01c
