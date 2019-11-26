@@ -13,6 +13,7 @@ Versioning](http://semver.org/spec/v2.0.0.html).
 - Added a new flag, --etcd-client-urls, which should be used with sensu-backend
 when it is not operating as an etcd member. The flag is also used by the new
 sensu-backend init tool.
+- Support for AIX on ppc64.
 
 ### Fixed
 - Add a timeout to etcd requests when retrieving the nodes health.
