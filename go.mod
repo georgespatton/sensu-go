@@ -71,4 +71,4 @@ require (
 
 replace github.com/spf13/afero => github.com/sensu/afero v1.2.3-0.20190704135849-20abb58b9b81
 
-replace github.com/fsnotify/fsnotify => github.com/sensu/fsnotify v1.4.8-0.20191106155114-258784b8a01c
+replace github.com/fsnotify/fsnotify => github.com/sensu/fsnotify v1.4.8-0.20191126053121-0adce4777482
